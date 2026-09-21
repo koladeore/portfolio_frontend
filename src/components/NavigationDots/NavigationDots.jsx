@@ -1,20 +1,22 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-/* eslint-disable jsx-a11y/anchor-has-content */
-import React from 'react'
+import React from 'react';
 
 const NavigationDots = ({ active }) => {
-  return (
-    <div className='app__navigation'>
-      {['home', 'about', 'work', 'skills', 'testimonial', 'contact'].map((item, index) => (
-      <a
-        href={`#${item}`}
-        key={item + index}
-        className="app__navigation-dot"
-        style={active === item ? { backgroundColor: '#313BAC' } : {}}
-      />
-    ))}
-    </div>
-  )
-}
+  const sections = ['home', 'about', 'work', 'skills', 'contact'];
 
-export default NavigationDots
+  return (
+    <nav className='app__navigation' aria-label="Page navigation">
+      {sections.map((item, index) => (
+        <a
+          href={`#${item}`}
+          key={item + index}
+          aria-label={`Scroll to ${item} section`}
+          title={item.charAt(0).toUpperCase() + item.slice(1)}
+          className={`app__navigation-dot ${active === item ? 'active' : ''}`}
+        />
+      ))}
+    </nav>
+  );
+};
+
+export default NavigationDots;
