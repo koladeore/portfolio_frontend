@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { BsBriefcase, BsCheck2Circle } from 'react-icons/bs';
+import { SiNestjs, SiExpress } from 'react-icons/si';
 import { AppWrap, MotionWrap } from '../../wrapper';
 import { urlFor, client } from '../../client';
 import { images } from '../../constants';
@@ -14,6 +15,8 @@ const defaultSkills = [
   { name: 'TypeScript', icon: images.typescript, category: 'Frontend' },
   { name: 'JavaScript', icon: images.javascript, category: 'Frontend' },
   { name: 'Node.js', icon: images.node, category: 'Backend' },
+  { name: 'NestJS', iconComponent: SiNestjs, iconColor: '#E0234E', category: 'Backend' },
+  { name: 'Express.js', iconComponent: SiExpress, iconColor: '#ffffff', category: 'Backend' },
   { name: 'REST APIs', icon: images.api, category: 'Backend' },
   { name: 'Redux Toolkit', icon: images.redux, category: 'Frontend' },
   { name: 'SCSS / CSS3', icon: images.sass, category: 'Frontend' },
@@ -22,6 +25,24 @@ const defaultSkills = [
   { name: 'GraphQL', icon: images.graphql, category: 'Backend' },
   { name: 'Python', icon: images.python, category: 'Backend' },
 ];
+
+const normalizeSkillKey = (name) => {
+  const clean = (name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  if (clean.startsWith('reactnative')) return 'reactnative';
+  if (clean.startsWith('react')) return 'reactjs';
+  if (clean.startsWith('node')) return 'nodejs';
+  if (clean.startsWith('nest')) return 'nestjs';
+  if (clean.startsWith('express')) return 'expressjs';
+  if (clean.startsWith('git')) return 'git';
+  if (clean.startsWith('scss') || clean.startsWith('sass')) return 'scss';
+  if (clean.startsWith('figma')) return 'figma';
+  if (clean.startsWith('next')) return 'nextjs';
+  if (clean.startsWith('type')) return 'typescript';
+  if (clean.startsWith('java')) return 'javascript';
+  if (clean.startsWith('python')) return 'python';
+  if (clean.startsWith('graph')) return 'graphql';
+  return clean;
+};
 
 const parseYearForSorting = (yearStr) => {
   if (!yearStr) return 0;
@@ -36,6 +57,8 @@ const extractExpTech = (desc) => {
   if (text.includes('react native')) tech.push('React Native');
   if (text.includes('next.js') || text.includes('next')) tech.push('Next.js');
   if (text.includes('tailwind')) tech.push('Tailwind CSS');
+  if (text.includes('nest')) tech.push('NestJS');
+  if (text.includes('express')) tech.push('Express');
   if (text.includes('node.js') || text.includes('node')) tech.push('Node.js');
   if (text.includes('typescript')) tech.push('TypeScript');
   if (text.includes('react') && !tech.includes('React Native')) tech.push('React');
@@ -71,20 +94,29 @@ const Skills = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  // Merge Sanity skills with default skills, ensuring icons and categories
+  // Merge Sanity skills with default skills, eliminating duplicates
   const mergedSkills = React.useMemo(() => {
     const map = new Map();
-    defaultSkills.forEach((s) => map.set(s.name.toLowerCase().replace(/\s+/g, ''), s));
+    defaultSkills.forEach((s) => map.set(normalizeSkillKey(s.name), s));
 
     sanitySkills.forEach((s) => {
-      const key = s.name.toLowerCase().replace(/\s+/g, '');
+      const key = normalizeSkillKey(s.name);
       const existing = map.get(key);
-      map.set(key, {
-        name: s.name,
-        icon: s.icon ? urlFor(s.icon) : existing?.icon || images.react,
-        category: existing?.category || 'Engineering',
-        bgColor: s.bgColor,
-      });
+      if (existing) {
+        // Enrich existing curated skill with Sanity image if available
+        map.set(key, {
+          ...existing,
+          icon: s.icon ? urlFor(s.icon) : existing.icon,
+          bgColor: s.bgColor || existing.bgColor,
+        });
+      } else {
+        map.set(key, {
+          name: s.name,
+          icon: s.icon ? urlFor(s.icon) : images.react,
+          category: 'Backend',
+          bgColor: s.bgColor,
+        });
+      }
     });
 
     return Array.from(map.values());
@@ -141,7 +173,14 @@ const Skills = () => {
                 key={`skill-${skill.name}-${index}`}
               >
                 <div className="skill-icon-wrap">
-                  <img src={skill.icon} alt={skill.name} />
+                  {skill.iconComponent ? (
+                    <skill.iconComponent
+                      className="skill-svg-icon"
+                      style={{ color: skill.iconColor || '#38bdf8' }}
+                    />
+                  ) : (
+                    <img src={skill.icon} alt={skill.name} />
+                  )}
                 </div>
                 <span className="skill-name">{skill.name}</span>
                 <span className="skill-cat-tag">{skill.category}</span>

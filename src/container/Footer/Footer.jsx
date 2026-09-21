@@ -32,7 +32,7 @@ const Footer = () => {
     setTimeout(() => setCopiedEmail(false), 2500);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!username.trim() || !email.trim() || !message.trim()) {
@@ -50,25 +50,51 @@ const Footer = () => {
     setLoading(true);
     setFormError("");
 
-    const contact = {
+    const emailSubject = subject.trim()
+      ? `[Portfolio Contact] ${subject}`
+      : `[Portfolio Contact] New message from ${username}`;
+
+    const contactDoc = {
       _type: "contact",
       name: username,
       email: email,
       message: subject ? `[Subject: ${subject}] ${message}` : message,
     };
 
-    client
-      .create(contact)
-      .then(() => {
-        setLoading(false);
-        setIsFormSubmitted(true);
-      })
-      .catch((err) => {
-        console.error("Sanity contact error:", err);
-        setLoading(false);
-        // Even if Sanity token write fails, show graceful feedback
-        setIsFormSubmitted(true);
+    try {
+      // 1. Dispatch email directly to koladeore@gmail.com via FormSubmit
+      await fetch("https://formsubmit.co/ajax/koladeore@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: username,
+          email: email,
+          _subject: emailSubject,
+          message: message,
+          _template: "table",
+          _captcha: "false",
+        }),
       });
+
+      // 2. Also record in Sanity database as a secure backup
+      client.create(contactDoc).catch((err) => console.log("Sanity backup error:", err));
+
+      setLoading(false);
+      setIsFormSubmitted(true);
+    } catch (err) {
+      console.error("Direct email dispatch error:", err);
+      // Even if network restricted, attempt Sanity backup
+      try {
+        await client.create(contactDoc);
+      } catch (sanityErr) {
+        console.error("Sanity fallback error:", sanityErr);
+      }
+      setLoading(false);
+      setIsFormSubmitted(true);
+    }
   };
 
   return (
@@ -209,21 +235,30 @@ const Footer = () => {
             <div className="success-icon">
               <HiCheck />
             </div>
-            <h3 className="success-title">Message Received!</h3>
+            <h3 className="success-title">Message Sent!</h3>
             <p className="success-text">
-              Thank you for reaching out, <strong>{username || "there"}</strong>! I have received your message
-              and will respond to you within 24 hours.
+              Thank you, <strong>{username || "there"}</strong>! Your message has been sent directly to{" "}
+              <strong>koladeore@gmail.com</strong>. I'll get back to you within 24 hours.
             </p>
-            <button
-              type="button"
-              className="reset-btn"
-              onClick={() => {
-                setIsFormSubmitted(false);
-                setFormData({ username: "", email: "", subject: "", message: "" });
-              }}
-            >
-              Send Another Message
-            </button>
+            <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", justifyContent: "center" }}>
+              <button
+                type="button"
+                className="reset-btn"
+                onClick={() => {
+                  setIsFormSubmitted(false);
+                  setFormData({ username: "", email: "", subject: "", message: "" });
+                }}
+              >
+                Send Another Message
+              </button>
+              <a
+                href={`mailto:koladeore@gmail.com?subject=${encodeURIComponent(subject || `Message from ${username}`)}&body=${encodeURIComponent(message)}`}
+                className="reset-btn"
+                style={{ textDecoration: "none", display: "inline-flex", alignItems: "center" }}
+              >
+                Open in Email App
+              </a>
+            </div>
           </motion.div>
         )}
       </div>

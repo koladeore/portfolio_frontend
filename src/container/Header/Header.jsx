@@ -10,7 +10,7 @@ const Header = () => {
   const techPills = [
     { name: "React & Next.js", icon: images.react },
     { name: "React Native", icon: images.flutter || images.react },
-    { name: "Node.js & APIs", icon: images.node },
+    { name: "Node.js • NestJS • Express", icon: images.node },
     { name: "TypeScript", icon: images.typescript },
   ];
 
@@ -20,6 +20,7 @@ const Header = () => {
     { count: "100%", label: "Client Satisfaction" },
     { count: "Full-Stack", label: "Web & Mobile Focus" },
   ];
+
 
   return (
     <div className="app__header app__flex">
@@ -120,8 +121,8 @@ const Header = () => {
               <img src={images.node} alt="Node.js" />
             </div>
             <div className="badge-text">
-              <span className="badge-title">Backend</span>
-              <span className="badge-sub">Node.js / APIs</span>
+              <span className="badge-title">Backend & APIs</span>
+              <span className="badge-sub">Node.js • NestJS • Express</span>
             </div>
           </motion.div>
 

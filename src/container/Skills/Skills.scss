@@ -115,7 +115,8 @@
     background: var(--bg-card-hover);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(99, 102, 241, 0.15);
 
-    .skill-icon-wrap img {
+    .skill-icon-wrap img,
+    .skill-icon-wrap .skill-svg-icon {
       transform: scale(1.1);
     }
   }
@@ -130,9 +131,11 @@
     align-items: center;
     margin-bottom: 0.65rem;
 
-    img {
+    img,
+    .skill-svg-icon {
       width: 26px;
       height: 26px;
+      font-size: 26px;
       object-fit: contain;
       transition: transform 0.25s ease;
     }
