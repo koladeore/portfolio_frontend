@@ -28,6 +28,7 @@ const inferTechStack = (work) => {
   if (text.includes('stripe')) tags.push('Stripe');
   if (text.includes('sanity')) tags.push('Sanity CMS');
   if (text.includes('figma') || work.tags?.includes('UI/UX')) tags.push('Figma', 'UI/UX');
+  if (text.includes('ci/cd') || text.includes('cicd') || text.includes('pipeline') || text.includes('github actions')) tags.push('CI/CD');
 
   // Fallback defaults
   if (tags.length === 0) {

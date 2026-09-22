@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { BsBriefcase, BsCheck2Circle } from 'react-icons/bs';
-import { SiNestjs, SiExpress } from 'react-icons/si';
+import { SiNestjs, SiExpress, SiGithubactions } from 'react-icons/si';
 import { AppWrap, MotionWrap } from '../../wrapper';
 import { urlFor, client } from '../../client';
 import { images } from '../../constants';
@@ -22,6 +22,7 @@ const defaultSkills = [
   { name: 'SCSS / CSS3', icon: images.sass, category: 'Frontend' },
   { name: 'Figma UI/UX', icon: images.figma, category: 'Design' },
   { name: 'Git & GitHub', icon: images.git, category: 'Tools' },
+  { name: 'CI/CD', iconComponent: SiGithubactions, iconColor: '#2088FF', category: 'Tools' },
   { name: 'GraphQL', icon: images.graphql, category: 'Backend' },
   { name: 'Python', icon: images.python, category: 'Backend' },
 ];
@@ -41,6 +42,7 @@ const normalizeSkillKey = (name) => {
   if (clean.startsWith('java')) return 'javascript';
   if (clean.startsWith('python')) return 'python';
   if (clean.startsWith('graph')) return 'graphql';
+  if (clean.startsWith('cicd') || clean.startsWith('ci') || clean.startsWith('githubactions')) return 'cicd';
   return clean;
 };
 
@@ -63,6 +65,7 @@ const extractExpTech = (desc) => {
   if (text.includes('typescript')) tech.push('TypeScript');
   if (text.includes('react') && !tech.includes('React Native')) tech.push('React');
   if (text.includes('edtech') || text.includes('ai')) tech.push('AI Integration');
+  if (text.includes('ci/cd') || text.includes('cicd') || text.includes('pipeline') || text.includes('github actions')) tech.push('CI/CD');
   return tech;
 };
 
@@ -127,7 +130,11 @@ const Skills = () => {
   const filteredSkills =
     activeCategory === 'All'
       ? mergedSkills
-      : mergedSkills.filter((s) => s.category === activeCategory || (activeCategory === 'Tools' && s.category === 'Design'));
+      : mergedSkills.filter(
+          (s) =>
+            s.category === activeCategory ||
+            (activeCategory === 'Tools' && (s.category === 'Design' || s.category === 'DevOps'))
+        );
 
   return (
     <div className="app__skills-section">
