@@ -5,6 +5,7 @@ import cpp from "../assets/cpp.png";
 import css from "../assets/css.png";
 import figma from "../assets/figma.png";
 import flutter from "../assets/flutter.png";
+import riverpod from "../assets/riverpod.svg";
 import git from "../assets/git.png";
 import graphql from "../assets/graphql.png";
 import html from "../assets/html.png";
@@ -43,6 +44,7 @@ const images = {
   css,
   figma,
   flutter,
+  riverpod,
   git,
   graphql,
   html,

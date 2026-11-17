@@ -11,7 +11,9 @@ const inferTechStack = (work) => {
   const text = `${work.title} ${work.description} ${(work.tags || []).join(' ')}`.toLowerCase();
   const tags = [];
 
-  if (text.includes('react native') || text.includes('expo') || text.includes('deliveroo') || text.includes('mealstogo')) {
+  if (text.includes('flutter') || text.includes('riverpod')) {
+    tags.push('Flutter', 'Riverpod');
+  } else if (text.includes('react native') || text.includes('expo') || text.includes('deliveroo') || text.includes('mealstogo')) {
     tags.push('React Native', 'Expo');
   } else if (text.includes('next') || text.includes('next.js')) {
     tags.push('Next.js', 'React');

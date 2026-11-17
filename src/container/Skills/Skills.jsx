@@ -11,7 +11,9 @@ import './Skills.scss';
 const defaultSkills = [
   { name: 'React.js', icon: images.react, category: 'Frontend' },
   { name: 'Next.js', icon: images.react, category: 'Frontend' },
-  { name: 'React Native', icon: images.flutter || images.react, category: 'Mobile' },
+  { name: 'Flutter', icon: images.flutter, category: 'Mobile' },
+  { name: 'Riverpod', icon: images.riverpod, category: 'Mobile' },
+  { name: 'React Native', icon: images.react, category: 'Mobile' },
   { name: 'TypeScript', icon: images.typescript, category: 'Frontend' },
   { name: 'JavaScript', icon: images.javascript, category: 'Frontend' },
   { name: 'Node.js', icon: images.node, category: 'Backend' },
@@ -29,6 +31,8 @@ const defaultSkills = [
 
 const normalizeSkillKey = (name) => {
   const clean = (name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  if (clean.includes('riverpod')) return 'riverpod';
+  if (clean.startsWith('flutter')) return 'flutter';
   if (clean.startsWith('reactnative')) return 'reactnative';
   if (clean.startsWith('react')) return 'reactjs';
   if (clean.startsWith('node')) return 'nodejs';
@@ -56,6 +60,8 @@ const parseYearForSorting = (yearStr) => {
 const extractExpTech = (desc) => {
   const text = (desc || '').toLowerCase();
   const tech = [];
+  if (text.includes('flutter')) tech.push('Flutter');
+  if (text.includes('riverpod')) tech.push('Riverpod');
   if (text.includes('react native')) tech.push('React Native');
   if (text.includes('next.js') || text.includes('next')) tech.push('Next.js');
   if (text.includes('tailwind')) tech.push('Tailwind CSS');
@@ -113,10 +119,37 @@ const Skills = () => {
           bgColor: s.bgColor || existing.bgColor,
         });
       } else {
+        const lowerName = (s.name || '').toLowerCase();
+        const isMobile =
+          lowerName.includes('mobile') ||
+          lowerName.includes('flutter') ||
+          lowerName.includes('riverpod') ||
+          lowerName.includes('dart') ||
+          lowerName.includes('android') ||
+          lowerName.includes('ios');
+        const isDesign =
+          lowerName.includes('figma') ||
+          lowerName.includes('design') ||
+          lowerName.includes('ui') ||
+          lowerName.includes('ux');
+        const isTool =
+          lowerName.includes('git') ||
+          lowerName.includes('docker') ||
+          lowerName.includes('ci') ||
+          lowerName.includes('aws');
+
+        const category = isMobile
+          ? 'Mobile'
+          : isDesign
+          ? 'Design'
+          : isTool
+          ? 'Tools'
+          : 'Backend';
+
         map.set(key, {
           name: s.name,
           icon: s.icon ? urlFor(s.icon) : images.react,
-          category: 'Backend',
+          category,
           bgColor: s.bgColor,
         });
       }

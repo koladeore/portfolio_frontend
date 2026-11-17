@@ -19,7 +19,7 @@ const capabilityMeta = {
   },
   "mobile": {
     displayTitle: "Cross-Platform Mobile",
-    pills: ["React Native", "Expo", "iOS & Android", "Native Modules"],
+    pills: ["Flutter", "React Native", "Riverpod", "Expo", "iOS & Android"],
     fallbackImg: images.about04,
   },
   "ui/ux": {

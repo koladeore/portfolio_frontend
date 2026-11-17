@@ -9,7 +9,7 @@ import "./Header.scss";
 const Header = () => {
   const techPills = [
     { name: "React & Next.js", icon: images.react },
-    { name: "React Native", icon: images.flutter || images.react },
+    { name: "Flutter & React Native", icon: images.flutter },
     { name: "Node.js • NestJS • Express", icon: images.node },
     { name: "TypeScript", icon: images.typescript },
   ];
@@ -48,7 +48,7 @@ const Header = () => {
         <p className="app__header-bio">
           Hi, I'm <strong className="highlight">Emmanuel Ore</strong> — a Senior Full-Stack & Mobile Engineer.
           I specialize in building production-ready web platforms with <strong>React</strong> & <strong>Next.js</strong>,
-          and robust mobile applications with <strong>React Native</strong> and <strong>Node.js</strong> backends.
+          and robust mobile applications with <strong>Flutter</strong>, <strong>React Native</strong>, and <strong>Node.js</strong> backends.
         </p>
 
         {/* CTA Actions */}
@@ -136,7 +136,7 @@ const Header = () => {
             </div>
             <div className="badge-text">
               <span className="badge-title">Cross-Platform</span>
-              <span className="badge-sub">React Native Mobile</span>
+              <span className="badge-sub">Flutter & React Native</span>
             </div>
           </motion.div>
         </div>
