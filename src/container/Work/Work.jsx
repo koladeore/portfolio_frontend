@@ -25,6 +25,11 @@ const inferTechStack = (work) => {
     tags.push('Node.js', 'Express');
   }
 
+  if (text.includes('c#') || text.includes('.net') || text.includes('dotnet') || text.includes('csharp')) {
+    tags.push('C# / .NET');
+  }
+  if (text.includes('postgres')) tags.push('PostgreSQL');
+
   if (text.includes('typescript')) tags.push('TypeScript');
   if (text.includes('socket') || text.includes('chat')) tags.push('Socket.IO');
   if (text.includes('stripe')) tags.push('Stripe');

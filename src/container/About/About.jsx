@@ -14,7 +14,7 @@ const capabilityMeta = {
   },
   "backend": {
     displayTitle: "Backend & System APIs",
-    pills: ["Node.js", "Express", "RESTful APIs", "Socket.IO"],
+    pills: ["C# / .NET", "Node.js", "NestJS", "PostgreSQL", "RESTful APIs"],
     fallbackImg: images.about02,
   },
   "mobile": {

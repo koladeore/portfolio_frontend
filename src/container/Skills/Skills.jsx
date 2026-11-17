@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { BsBriefcase, BsCheck2Circle } from 'react-icons/bs';
-import { SiNestjs, SiExpress, SiGithubactions } from 'react-icons/si';
+import { SiNestjs, SiExpress, SiGithubactions, SiCsharp, SiPostgresql } from 'react-icons/si';
 import { AppWrap, MotionWrap } from '../../wrapper';
 import { urlFor, client } from '../../client';
 import { images } from '../../constants';
@@ -17,8 +17,10 @@ const defaultSkills = [
   { name: 'TypeScript', icon: images.typescript, category: 'Frontend' },
   { name: 'JavaScript', icon: images.javascript, category: 'Frontend' },
   { name: 'Node.js', icon: images.node, category: 'Backend' },
+  { name: 'C# / .NET', iconComponent: SiCsharp, iconColor: '#239120', category: 'Backend' },
   { name: 'NestJS', iconComponent: SiNestjs, iconColor: '#E0234E', category: 'Backend' },
   { name: 'Express.js', iconComponent: SiExpress, iconColor: '#ffffff', category: 'Backend' },
+  { name: 'PostgreSQL', iconComponent: SiPostgresql, iconColor: '#4169E1', category: 'Backend' },
   { name: 'REST APIs', icon: images.api, category: 'Backend' },
   { name: 'Redux Toolkit', icon: images.redux, category: 'Frontend' },
   { name: 'SCSS / CSS3', icon: images.sass, category: 'Frontend' },
@@ -35,6 +37,8 @@ const normalizeSkillKey = (name) => {
   if (clean.startsWith('flutter')) return 'flutter';
   if (clean.startsWith('reactnative')) return 'reactnative';
   if (clean.startsWith('react')) return 'reactjs';
+  if (clean.includes('csharp') || clean.includes('dotnet') || clean === 'cnet' || clean === 'cntet' || clean === 'net' || clean === 'c') return 'csharpdotnet';
+  if (clean.includes('postgres')) return 'postgresql';
   if (clean.startsWith('node')) return 'nodejs';
   if (clean.startsWith('nest')) return 'nestjs';
   if (clean.startsWith('express')) return 'expressjs';
@@ -68,6 +72,8 @@ const extractExpTech = (desc) => {
   if (text.includes('nest')) tech.push('NestJS');
   if (text.includes('express')) tech.push('Express');
   if (text.includes('node.js') || text.includes('node')) tech.push('Node.js');
+  if (text.includes('c#') || text.includes('.net') || text.includes('dotnet') || text.includes('csharp')) tech.push('C# / .NET');
+  if (text.includes('postgres')) tech.push('PostgreSQL');
   if (text.includes('typescript')) tech.push('TypeScript');
   if (text.includes('react') && !tech.includes('React Native')) tech.push('React');
   if (text.includes('edtech') || text.includes('ai')) tech.push('AI Integration');

@@ -10,7 +10,7 @@ const Header = () => {
   const techPills = [
     { name: "React & Next.js", icon: images.react },
     { name: "Flutter & React Native", icon: images.flutter },
-    { name: "Node.js • NestJS • Express", icon: images.node },
+    { name: "Node.js • C# / .NET • NestJS", icon: images.node },
     { name: "TypeScript", icon: images.typescript },
   ];
 
@@ -46,9 +46,10 @@ const Header = () => {
 
         {/* Clear Subtitle */}
         <p className="app__header-bio">
-          Hi, I'm <strong className="highlight">Emmanuel Ore</strong> — a Senior Full-Stack & Mobile Engineer.
-          I specialize in building production-ready web platforms with <strong>React</strong> & <strong>Next.js</strong>,
-          and robust mobile applications with <strong>Flutter</strong>, <strong>React Native</strong>, and <strong>Node.js</strong> backends.
+          Hi, I’m <strong className="highlight">Emmanuel Ore</strong>, a Software & Mobile Engineer.
+          I build full-stack web applications with <strong>React</strong> and <strong>Next.js</strong>,
+          iOS and Android apps with <strong>React Native</strong> and <strong>Flutter</strong>,
+          and backend APIs with <strong>Node.js</strong>, <strong>NestJS</strong>, <strong>C# / .NET</strong>, and <strong>PostgreSQL</strong>.
         </p>
 
         {/* CTA Actions */}
@@ -122,7 +123,7 @@ const Header = () => {
             </div>
             <div className="badge-text">
               <span className="badge-title">Backend & APIs</span>
-              <span className="badge-sub">Node.js • NestJS • Express</span>
+              <span className="badge-sub">Node.js • C# / .NET • NestJS</span>
             </div>
           </motion.div>
 
